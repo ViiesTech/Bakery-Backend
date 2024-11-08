@@ -7,15 +7,29 @@ const cors = require('cors')
 app.use(cors())
 const dotenv = require('dotenv')
 dotenv.config()
+
+
 const DB = require('./Config/ConnectDB.js')
 DB()
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json()) 
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", Route)
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+
+app.get('/',(req, res)=>{
+    res.send({
+        success: true,
+        dev: "Project runs"
+    })
+})
+
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server running at http://localhost:${process.env.PORT}`);
 });
+
+
+module.exports = app;
