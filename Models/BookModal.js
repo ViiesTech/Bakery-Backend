@@ -16,6 +16,10 @@ const BookingSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    BakeryId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
     quantity: {
         type: Number,
         required: true
@@ -28,10 +32,6 @@ const BookingSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
-    productdetail: {
-        type: String,
-        required: true
-    },
     bookingDropImg: {
         type: String
     },
@@ -41,7 +41,12 @@ const BookingSchema = new mongoose.Schema({
         enum: ["Pending", "Ready", "Start", "Pick", "Drop"],
         default: "Pending"
     },
-    
+    TotalPrice:{
+        type: String,
+        required: true
+    },
+ 
+
 })
 
 module.exports = mongoose.model('Booking',BookingSchema)

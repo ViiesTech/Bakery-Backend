@@ -58,15 +58,17 @@ Route.post('/user/edit-profile', AuthMiddleware, uploadUserPic.single('profilePi
 Route.post('/bakery/add-product', AuthMiddleware, uploadBakeryPic.single('productImage'), ProductController.AddProduct)
 Route.get('/bakery/product-by-prId/:id', AuthMiddleware, ProductController.GetProductByProductID)
 Route.get('/bakery/all-product', AuthMiddleware, ProductController.GetAllProductByBakeryID)
-Route.get('/bakery/get-all-booking-pending', AuthMiddleware, BookController.GetAllBookingPending)
-Route.post('/bakery/booking-ready-owner/:id', AuthMiddleware, BookController.BookIsReadyFromOwner)
+// Route.get('/bakery/get-all-booking-pending', AuthMiddleware, BookController.GetAllBookingPending)
+// Route.post('/bakery/booking-ready-owner/:id', AuthMiddleware, BookController.BookIsReadyFromOwner)
 
 // Booking
 Route.get('/subscriber/get-all-product', AuthMiddleware, ProductController.GetAllProduct)
 Route.post('/subscriber/product-booking/:id', AuthMiddleware, BookController.ProductBooking)
+Route.post('/subscriber/GetAllMyBookingProducts', AuthMiddleware, BookController.GetAllMyBookingProducts)
+
 
 // Rider
-Route.get('/rider/get-all-ready-booking', AuthMiddleware, BookController.GetAllReadyBooking)
-Route.post('/rider/order-book-from-rider', AuthMiddleware, uploadDropPic.single('bookingDropImg'), BookController.OrderBookFromRider)
+// Route.get('/rider/get-all-ready-booking', AuthMiddleware, BookController.GetAllReadyBooking)
+// Route.post('/rider/order-book-from-rider', AuthMiddleware, uploadDropPic.single('bookingDropImg'), BookController.OrderBookFromRider)
 
 module.exports = Route
