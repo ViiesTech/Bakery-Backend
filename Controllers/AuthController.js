@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv').config()
 
 class AuthController{
+    
     static Register = async (req, res) => {
         const { userName, email, password, address, type} = req.body
         try {

@@ -4,6 +4,7 @@ const AuthMiddleware = require('../Middleware/AuthMiddleware.js')
 const AuthController = require('./../Controllers/AuthController.js')
 const ProductController = require('./../Controllers/ProductController.js')
 const BookController = require('./../Controllers/BookController')
+const PostController = require('../Controllers/PostController.js')
 const multer = require('multer')
 
 // Multer For Upload Pics
@@ -28,14 +29,15 @@ const DropPicStorage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
-
 // Create multer upload instance
 const uploadDropPic = multer({ storage: DropPicStorage });
+
+
 
 // Multer For Upload Pics
 const UserPicStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'Public/User');
+        cb(null, 'Public/Post');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);
@@ -45,9 +47,24 @@ const UserPicStorage = multer.diskStorage({
 // Create multer upload instance
 const uploadUserPic = multer({ storage: UserPicStorage });
 
+
+// Multer For Upload Pics
+const PostPicStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'Public/Post');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+// Create multer upload instance
+const uploadPostPic = multer({ storage: PostPicStorage });
+
 // Static File 
 // Access Bakery Images
 Route.use('/bakery', express.static('Public/Bakery'))
+Route.use('/Post', express.static('Public/Post'))
 
 // Auth
 Route.post('/user/register', AuthController.Register)
@@ -58,6 +75,8 @@ Route.post('/user/edit-profile', AuthMiddleware, uploadUserPic.single('profilePi
 Route.post('/bakery/add-product', AuthMiddleware, uploadBakeryPic.single('productImage'), ProductController.AddProduct)
 Route.get('/bakery/product-by-prId/:id', AuthMiddleware, ProductController.GetProductByProductID)
 Route.get('/bakery/all-product', AuthMiddleware, ProductController.GetAllProductByBakeryID)
+Route.post('/bakery/GetAllProductByCatagories', AuthMiddleware, ProductController.GetAllProductByCatagories)
+Route.post('/bakery/SearchProductByNameAndCatagoreis', AuthMiddleware, ProductController.SearchProductByNameAndCategory)
 // Route.get('/bakery/get-all-booking-pending', AuthMiddleware, BookController.GetAllBookingPending)
 // Route.post('/bakery/booking-ready-owner/:id', AuthMiddleware, BookController.BookIsReadyFromOwner)
 
@@ -70,5 +89,15 @@ Route.post('/subscriber/GetAllMyBookingProducts', AuthMiddleware, BookController
 // Rider
 // Route.get('/rider/get-all-ready-booking', AuthMiddleware, BookController.GetAllReadyBooking)
 // Route.post('/rider/order-book-from-rider', AuthMiddleware, uploadDropPic.single('bookingDropImg'), BookController.OrderBookFromRider)
+
+
+//posting social media 
+Route.post('/post/createPost', AuthMiddleware, uploadPostPic.single("postPicture"), PostController.createPost)
+Route.get('/post/getAllPost', AuthMiddleware, PostController.getAllPost)
+
+Route.post('/post/LikeAPost', AuthMiddleware, PostController.LikeAPost)
+Route.post('/post/CommentAPost', AuthMiddleware, PostController.CommentAPost)
+Route.post('/post/ShareAPost', AuthMiddleware, PostController.ShareAPost)
+
 
 module.exports = Route
